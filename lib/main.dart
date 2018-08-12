@@ -1,12 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:alphablackjack/Card.dart';
+import 'package:alphablackjack/Gameplay.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
+//  debugPaintSizeEnabled = true;
   runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return HomePage();
+  }
+}
+
+class GameCardWidget extends StatelessWidget {
+
+  final String cardPath;
+  GameCardWidget(this.cardPath);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Image.asset(
+        'assets/playing_cards/$cardPath',
+        height: 100.0,
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+
+  var playerTotalWinnings = 0;
+  String path = "";
+  Gameplay gameplay;
+  int playerTotal = 0;
+  int dealerTotal = 0;
+
+  HomePageState() {
+    gameplay = Gameplay();
+    gameplay.init();
+    playerTotal = gameplay.player.handTotal;
+    dealerTotal = gameplay.dealer.handTotal;
+  }
+
+  void bet() {
+    setState(() {
+      gameplay.init();
+      playerTotal = gameplay.player.handTotal;
+      dealerTotal = gameplay.dealer.handTotal;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,8 +67,9 @@ class MyApp extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          GameCardWidget(),
-          GameCardWidget()
+          GameCardWidget(gameplay.dealer.card1.assetPath),
+          Text('$dealerTotal'),
+          GameCardWidget(gameplay.dealer.card2.assetPath)
         ],
       );
     }
@@ -24,8 +78,9 @@ class MyApp extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          GameCardWidget(),
-          GameCardWidget()
+          GameCardWidget(gameplay.player.card1.assetPath),
+          Text('$playerTotal'),
+          GameCardWidget(gameplay.player.card2.assetPath)
         ],
       );
     }
@@ -37,13 +92,13 @@ class MyApp extends StatelessWidget {
           FlatButton(
             color: Colors.blue,
             textColor: Colors.white,
-            child: Text('Click'),
-            onPressed: null,
+            child: Text('Bet'),
+            onPressed: bet,
           ),
           FlatButton(
             color: Colors.blue,
             textColor: Colors.white,
-            child: Text('Click B'),
+            child: Text('--'),
             onPressed: null,
           ),
         ],
@@ -51,42 +106,29 @@ class MyApp extends StatelessWidget {
     }
 
     return MaterialApp(
-        title: 'AlphaBlackJack',
-        theme: ThemeData(
-            primarySwatch: Colors.blue
+      title: 'AlphaBlackJack',
+      theme: ThemeData(
+          primarySwatch: Colors.blue
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('AlphaBlackJack'),
         ),
-        home: Scaffold(
-            appBar: AppBar(
-                title: Text('AlphaBlackJack'),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  buildDealerCardRow(),
-                  buildPlayerCardRow(),
-                  buildGameButtonsRow(),
-                  buildGameButtonsRow(),
-                  Text('Score: 1000'),
-                ],
-              ),
-            ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              buildDealerCardRow(),
+              buildPlayerCardRow(),
+              buildGameButtonsRow(),
+              buildGameButtonsRow(),
+              Text('$path'),
+            ],
+          ),
         ),
-    );
-  }
-}
-
-class GameCardWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'assets/playing_cards/2_of_clubs.png',
-        height: 100.0,
-        fit: BoxFit.fill,
       ),
     );
-  }
 
+  }
 
 }
