@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:alphablackjack/Hand.dart';
-import 'package:alphablackjack/Card.dart';
+import 'package:alphablackjack/GameCard.dart';
 
 
-class Gameplay {
+class Game {
 
   static final cardNames = ['clubs','diamonds', 'hearts', 'spades'];
   static final cardNumbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
@@ -14,8 +14,13 @@ class Gameplay {
 
   Hand player;
   Hand dealer;
+  
+  void newGame() {
+    player = Hand(GameCard.empty(), GameCard.empty());
+    dealer = Hand(GameCard.empty(), GameCard.empty());
+  }
 
-  void init() {
+  void deal() {
     player = getShuffledHand();
     dealer = getShuffledHand();
   }
@@ -36,8 +41,44 @@ class Gameplay {
 
   }
 
-  void deal() {
+  int getPlayerCurrentTotal() {
+    return player.handTotal;
+  }
 
+  int getDealerCurrentTotal() {
+    return dealer.handTotal;
+  }
+
+  String getDealerFirstCardAssetPath() {
+    if (dealer == null || dealer.card1 == null) {
+      return GameCard.DEFAULT_ASSET_PATH;
+    }
+
+    return dealer.card1.assetPath;
+  }
+
+  String getDealerSecondCardAssetPath() {
+    if (dealer == null || dealer.card2 == null) {
+      return GameCard.DEFAULT_ASSET_PATH;
+    }
+
+    return dealer.card2.assetPath;
+  }
+
+  String getPlayerFirstCardAssetPath() {
+    if (player == null || player.card1 == null) {
+      return GameCard.DEFAULT_ASSET_PATH;
+    }
+
+    return player.card1.assetPath;
+  }
+
+  String getPlayerSecondCardAssetPath() {
+    if (player == null || player.card2 == null) {
+      return GameCard.DEFAULT_ASSET_PATH;
+    }
+
+    return player.card2.assetPath;
   }
 
   Hand getShuffledHand() {

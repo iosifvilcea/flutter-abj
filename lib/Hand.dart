@@ -1,4 +1,4 @@
-import 'package:alphablackjack/Card.dart';
+import 'package:alphablackjack/GameCard.dart';
 
 class Hand {
 
