@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:alphablackjack/Game.dart';
+import 'package:alphablackjack/BlackjackGame.dart';
 import 'package:alphablackjack/widgets/GameCardWidget.dart';
 
 
 class GamePage extends StatefulWidget {
+  final BlackjackGame _engine;
 
-  final Game _gameEngine;
-  GamePage(this._gameEngine);
+  GamePage(this._engine);
 
   @override
   State<StatefulWidget> createState() => GamePageState();
 }
-
 
 class GamePageState extends State<GamePage> {
 
@@ -26,7 +25,7 @@ class GamePageState extends State<GamePage> {
   String bottomRightButtonText = "";
 
   var infoText;
-  Game gameplay;
+  BlackjackGame _engine;
 
   var playerTotal = 0;
   var dealerTotal = 0;
@@ -36,12 +35,6 @@ class GamePageState extends State<GamePage> {
   VoidCallback topRightButtonCallback;
   VoidCallback bottomRightButtonCallback;
 
-  @override
-  initState() {
-    super.initState();
-    gameplay.newGame();
-  }
-
   void setGameText() {
     topRightButtonText = HIT_TEXT;
     bottomRightButtonText = STAND_TEXT;
@@ -49,15 +42,15 @@ class GamePageState extends State<GamePage> {
   }
 
   void deal() {
-    gameplay.deal();
-    playerTotal = gameplay.getPlayerCurrentTotal();
+    _engine.deal();
+    playerTotal = _engine.getPlayerCurrentTotal();
     dealerTotal = 0;
   }
 
   void hit() {
-    gameplay.hit();
-    playerTotal = gameplay.getPlayerCurrentTotal();
-    dealerTotal = gameplay.getDealerCurrentTotal();
+    _engine.hit();
+    playerTotal = _engine.getPlayerCurrentTotal();
+    dealerTotal = _engine.getDealerCurrentTotal();
   }
 
   void setBetStates() {
@@ -108,9 +101,9 @@ class GamePageState extends State<GamePage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          GameCardWidget(gameplay.getDealerFirstCardAssetPath()),
+          GameCardWidget(_engine.getDealerFirstCardAssetPath()),
           Text('$dealerTotal'),
-          GameCardWidget(gameplay.getDealerSecondCardAssetPath())
+          GameCardWidget(_engine.getDealerSecondCardAssetPath())
         ],
       );
     }
@@ -119,9 +112,9 @@ class GamePageState extends State<GamePage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          GameCardWidget(gameplay.getPlayerFirstCardAssetPath()),
+          GameCardWidget(_engine.getPlayerFirstCardAssetPath()),
           Text('$playerTotal'),
-          GameCardWidget(gameplay.getPlayerSecondCardAssetPath())
+          GameCardWidget(_engine.getPlayerSecondCardAssetPath())
         ],
       );
     }

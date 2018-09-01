@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:alphablackjack/GamePage.dart';
-import 'package:alphablackjack/Game.dart';
+import 'package:alphablackjack/BlackjackGame.dart';
 
 void main() {
 //  debugPaintSizeEnabled = true;
@@ -15,12 +15,12 @@ class AlphaBlackJackApp extends StatefulWidget {
 
 class _AlphaBlackJackAppState extends State<AlphaBlackJackApp> {
 
-  Game _gameEngine;
+  BlackjackGame _gameEngine;
 
   @override
   void initState() {
     super.initState();
-    _gameEngine = Game();
+    _gameEngine = BlackjackGame();
   }
 
   @override

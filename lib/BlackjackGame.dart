@@ -3,7 +3,7 @@ import 'package:alphablackjack/Hand.dart';
 import 'package:alphablackjack/GameCard.dart';
 
 
-class Game {
+class BlackjackGame {
 
   static final cardNames = ['clubs','diamonds', 'hearts', 'spades'];
   static final cardNumbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace'];
@@ -14,6 +14,8 @@ class Game {
 
   Hand player;
   Hand dealer;
+
+  BlackjackGame();
   
   void newGame() {
     player = Hand(GameCard.empty(), GameCard.empty());
